@@ -3,10 +3,6 @@ import mongoose from "mongoose";
 const { Schema, model } = mongoose;
 
 const otpSchema = new Schema({
-    role : {
-        type : String,
-        require : true
-    },
 	email: {
 		type: String,
 		require: true,
@@ -15,6 +11,7 @@ const otpSchema = new Schema({
 	otp: {
 		type: String,
 		require: true,
+		length : 6
 	},
 	createAt: {
 		type: Date,

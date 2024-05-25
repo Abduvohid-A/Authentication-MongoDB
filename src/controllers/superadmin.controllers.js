@@ -25,8 +25,9 @@ export const getAllSuperadmin = async (req, res) => {
 
 export const getSuperAdmin = async (req, res) => {
     try {
+        const { id } = req.params;
 
-        const { ok, values, status, message } = await superadminOne();
+        const { ok, values, status, message } = await superadminOne(id);
 
         if (!ok) res.status(status).json(message);
         else res.status(status).json(values);
@@ -40,8 +41,9 @@ export const getSuperAdmin = async (req, res) => {
 
 export const putSuperAdmin = async (req, res) => {
     try {
+        const { id } = req.params;
 
-        const { ok, values, status, message } = await superadminUpdate();
+        const { ok, values, status, message } = await superadminUpdate(id, req.body);
 
         if (!ok) res.status(status).json(message);
         else res.status(status).json(values);
@@ -55,11 +57,12 @@ export const putSuperAdmin = async (req, res) => {
 
 export const delSuperAdmin = async (req, res) => {
     try {
+        const { id } = req.params;
 
-        const { ok, values, status, message } = await superadminDelete();
+        const { ok, values, status, message } = await superadminDelete(id);
 
         if (!ok) res.status(status).json(message);
-        else res.status(status).json(values);
+        else res.status(status).json(message);
         
     } catch (error) {
         console.log(error);
@@ -71,7 +74,24 @@ export const delSuperAdmin = async (req, res) => {
 export const createSuperAdmin = async (req, res) => {
     try {
 
-        const { ok, values, status, message } = await superadminCreate();
+        const superSchema = Joi.object({
+            name : Joi.string().min(4).required(),
+            role : Joi.string().min(4).required(),
+            email : Joi.string().email().required(),
+            password : Joi.string().min(5).required(),
+        });
+
+        const { error, value } = superSchema.validate(req.body);
+
+        if (error) {
+            return res.status(400).json({ message : error.details[0].message });
+        };
+
+        const hashedPassword = await bcrypt.hash(value.password, 8);
+
+        const superAdmin = {name : value.name, role : value.role, email : value.email, password : hashedPassword};
+
+        const { ok, values, status, message } = await superadminCreate(superAdmin);
 
         if (!ok) res.status(status).json(message);
         else res.status(status).json(values);

@@ -27,8 +27,9 @@ export const getAllAdmins = async (req, res) => {
 
 export const getAdmin = async (req, res) => {
     try {
+        const { id } = req.params;
 
-        const { ok, values, status, message } = await adminOne();
+        const { ok, values, status, message } = await adminOne(id);
 
         if (!ok) res.status(status).json(message);
         else res.status(status).json(values);
@@ -42,8 +43,9 @@ export const getAdmin = async (req, res) => {
 
 export const putAdmin = async (req, res) => {
     try {
+        const { id } = req.params;
 
-        const { ok, values, status, message } = await adminUpdate();
+        const { ok, values, status, message } = await adminUpdate(id, req.body);
 
         if (!ok) res.status(status).json(message);
         else res.status(status).json(values);
@@ -57,11 +59,12 @@ export const putAdmin = async (req, res) => {
 
 export const delAdmin = async (req, res) => {
     try {
+        const { id } = req.params;
 
-        const { ok, values, status, message } = await adminDel();
+        const { ok, values, status, message } = await adminDel(id);
 
         if (!ok) res.status(status).json(message);
-        else res.status(status).json(values);
+        else res.status(status).json(message);
 
     } catch (error) {
         console.log(error);

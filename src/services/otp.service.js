@@ -1,167 +1,32 @@
-import SuperAdmin from "../models/superadmin.models.js";
+import Otp from "../models/otp.models.js";
 
-
-export const superadminAll = async () => {
+export const otpSave = async (role, email, generateOtp) => {
     try {
-        const superAdmin = await SuperAdmin.find();
-
-        if (!superAdmin) {
-            return {
-                ok: false,
-                values: "",
-                message: "Not Found",
-                status: 404
-            };
-        };
-
-        return {
-            ok: true,
-            values: superAdmin,
-            message: "",
-            status: 200
-        };
-
-
+        const newOtp = new Otp({ email, generateOtp });
+        await newOtp.save();
+        return newOtp;
     } catch (error) {
-        console.log(error);
-
-        return {
-            ok: false,
-            values: "",
-            message: "Server Error",
-            status: 500
-        };
-    };
+        console.error(error);
+        throw error;
+    }
 };
 
-export const superadminOne = async () => {
+export const findOtp = async (email) => {
     try {
-        const superAdmin = await SuperAdmin.find();
-
-        if (!superAdmin) {
-            return {
-                ok: false,
-                values: "",
-                message: "Not Found",
-                status: 404
-            };
-        };
-
-        return {
-            ok: true,
-            values: superAdmin,
-            message: "",
-            status: 200
-        };
-
-
+        const otp = await Otp.findOne({ email });
+        return otp;
     } catch (error) {
-        console.log(error);
-
-        return {
-            ok: false,
-            values: "",
-            message: "Server Error",
-            status: 500
-        };
-    };
+        console.error(error);
+        throw error;
+    }
 };
 
-export const superadminUpdate = async () => {
+export const deleteOtp = async (email) => {
     try {
-        const superAdmin = await SuperAdmin.find();
-
-        if (!superAdmin) {
-            return {
-                ok: false,
-                values: "",
-                message: "Not Found",
-                status: 404
-            };
-        };
-
-        return {
-            ok: true,
-            values: superAdmin,
-            message: "",
-            status: 200
-        };
-
-
+        const otp = await Otp.deleteOne({ email });
+        return otp;
     } catch (error) {
-        console.log(error);
-
-        return {
-            ok: false,
-            values: "",
-            message: "Server Error",
-            status: 500
-        };
-    };
-};
-
-export const superadminDelete = async () => {
-    try {
-        const superAdmin = await SuperAdmin.find();
-
-        if (!superAdmin) {
-            return {
-                ok: false,
-                values: "",
-                message: "Not Found",
-                status: 404
-            };
-        };
-
-        return {
-            ok: true,
-            values: superAdmin,
-            message: "",
-            status: 200
-        };
-
-
-    } catch (error) {
-        console.log(error);
-
-        return {
-            ok: false,
-            values: "",
-            message: "Server Error",
-            status: 500
-        };
-    };
-};
-
-export const superadminCreate = async () => {
-    try {
-        const superAdmin = await SuperAdmin.find();
-
-        if (!superAdmin) {
-            return {
-                ok: false,
-                values: "",
-                message: "Not Found",
-                status: 404
-            };
-        };
-
-        return {
-            ok: true,
-            values: superAdmin,
-            message: "",
-            status: 200
-        };
-
-
-    } catch (error) {
-        console.log(error);
-
-        return {
-            ok: false,
-            values: "",
-            message: "Server Error",
-            status: 500
-        };
-    };
+        console.error(error);
+        throw error;
+    }
 };

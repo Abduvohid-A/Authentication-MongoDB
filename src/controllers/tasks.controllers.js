@@ -1,5 +1,4 @@
 import Joi from "joi";
-import bcrypt from "bcrypt";
 import {
     tasksAll,
     taskOne,
@@ -7,6 +6,7 @@ import {
     taskDelete,
     taskCreate
 } from "../services/tasks.service.js";
+
 
 export const getAllTasks = async (req, res) => {
     try {
@@ -25,8 +25,9 @@ export const getAllTasks = async (req, res) => {
 
 export const getTask = async (req, res) => {
     try {
+        const { id } = req.params;
 
-        const { ok, values, status, message } = await taskOne();
+        const { ok, values, status, message } = await taskOne(id);
 
         if (!ok) res.status(status).json(message);
         else res.status(status).json(values);
@@ -55,11 +56,12 @@ export const putTask = async (req, res) => {
 
 export const delTask = async (req, res) => {
     try {
+        const { id } = req.params;
 
-        const { ok, values, status, message } = await taskDelete();
+        const { ok, values, status, message } = await taskDelete(id);
 
         if (!ok) res.status(status).json(message);
-        else res.status(status).json(values);
+        else res.status(status).json(message);
 
     } catch (error) {
         console.log(error);
@@ -70,8 +72,18 @@ export const delTask = async (req, res) => {
 
 export const cerateTask = async (req, res) => {
     try {
+        const schema = Joi.object({
+            name : Joi.string().min(4).required(),
+            description : Joi.string().min(7).required()
+        });
 
-        const { ok, values, status, message } = await taskCreate();
+        const {error} = schema.validate(req.body);
+
+        if (error) {
+            return res.status(400).json( { message : error.details[0].message });
+        };
+
+        const { ok, values, status, message } = await taskCreate(req.body);
 
         if (!ok) res.status(status).json(message);
         else res.status(status).json(values);

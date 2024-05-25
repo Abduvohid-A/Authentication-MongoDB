@@ -12,13 +12,13 @@ import tasksRouter from "./tasks.routes.js";
 const router = Router();
 
 router.use("/admin", adminRouter);
-router.use("/user", userRouter);
+router.use("/users", userRouter);
 router.use("/tasks", tasksRouter);
 
-router.get("/superadmin", getAllSuperadmin);
-router.get("/superadmin/:id", getSuperAdmin);
-router.put("/superadmin/:id", putSuperAdmin);
-router.delete("/superadmin/:id", delSuperAdmin);
-router.post("/superadmin", createSuperAdmin);
+router.get("/", getAllSuperadmin);
+router.get("/:id", getSuperAdmin);
+router.put("/:id", putSuperAdmin);
+router.delete("/:id", delSuperAdmin);
+router.post("/", createSuperAdmin);
 
 export default router;

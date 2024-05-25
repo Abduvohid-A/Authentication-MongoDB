@@ -3,9 +3,9 @@ import Admin from "../models/admin.models.js";
 
 export const adminsAll = async () => {
     try {
-        const superAdmin = await Admin.find();
+        const admins = await Admin.find();
 
-        if (!superAdmin) {
+        if (!admins) {
             return {
                 ok: false,
                 values: "",
@@ -16,7 +16,7 @@ export const adminsAll = async () => {
 
         return {
             ok: true,
-            values: superAdmin,
+            values: admins,
             message: "",
             status: 200
         };
@@ -34,11 +34,11 @@ export const adminsAll = async () => {
     };
 };
 
-export const adminOne = async () => {
+export const adminOne = async (id) => {
     try {
-        const superAdmin = await Admin.find();
+        const admin = await Admin.findById(id);
 
-        if (!superAdmin) {
+        if (!admin) {
             return {
                 ok: false,
                 values: "",
@@ -49,7 +49,7 @@ export const adminOne = async () => {
 
         return {
             ok: true,
-            values: superAdmin,
+            values: admin,
             message: "",
             status: 200
         };
@@ -67,11 +67,11 @@ export const adminOne = async () => {
     };
 };
 
-export const adminUpdate = async () => {
+export const adminUpdate = async (id, updAdmin) => {
     try {
-        const superAdmin = await Admin.find();
+        const existAdmin = await Admin.findById(id);
 
-        if (!superAdmin) {
+        if (!existAdmin) {
             return {
                 ok: false,
                 values: "",
@@ -80,9 +80,11 @@ export const adminUpdate = async () => {
             };
         };
 
+        const newAdmin = await Admin.findByIdAndUpdate(id, updAdmin, { new : true});
+
         return {
             ok: true,
-            values: superAdmin,
+            values: newAdmin,
             message: "",
             status: 200
         };
@@ -100,11 +102,11 @@ export const adminUpdate = async () => {
     };
 };
 
-export const adminDel = async () => {
+export const adminDel = async (id) => {
     try {
-        const superAdmin = await Admin.find();
+        const admin = await Admin.findById(id);
 
-        if (!superAdmin) {
+        if (!admin) {
             return {
                 ok: false,
                 values: "",
@@ -112,11 +114,12 @@ export const adminDel = async () => {
                 status: 404
             };
         };
+        await Admin.findByIdAndDelete(id);
 
         return {
             ok: true,
-            values: superAdmin,
-            message: "",
+            values: "",
+            message: "Successfully Deleted",
             status: 200
         };
 

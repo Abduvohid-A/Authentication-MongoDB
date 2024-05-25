@@ -34,9 +34,9 @@ export const superadminAll = async () => {
     };
 };
 
-export const superadminOne = async () => {
+export const superadminOne = async (id) => {
     try {
-        const superAdmin = await SuperAdmin.find();
+        const superAdmin = await SuperAdmin.findById(id);
 
         if (!superAdmin) {
             return {
@@ -67,9 +67,9 @@ export const superadminOne = async () => {
     };
 };
 
-export const superadminUpdate = async () => {
+export const superadminUpdate = async (id, updSuper) => {
     try {
-        const superAdmin = await SuperAdmin.find();
+        const superAdmin = await SuperAdmin.findById(id);
 
         if (!superAdmin) {
             return {
@@ -80,9 +80,11 @@ export const superadminUpdate = async () => {
             };
         };
 
+        const updatedAdmin = await SuperAdmin.findByIdAndUpdate(id, updSuper, { new : true});
+
         return {
             ok: true,
-            values: superAdmin,
+            values: updatedAdmin,
             message: "",
             status: 200
         };
@@ -100,9 +102,9 @@ export const superadminUpdate = async () => {
     };
 };
 
-export const superadminDelete = async () => {
+export const superadminDelete = async (id) => {
     try {
-        const superAdmin = await SuperAdmin.find();
+        const superAdmin = await SuperAdmin.findById(id);
 
         if (!superAdmin) {
             return {
@@ -113,10 +115,12 @@ export const superadminDelete = async () => {
             };
         };
 
+        await SuperAdmin.findByIdAndDelete(id);
+
         return {
             ok: true,
-            values: superAdmin,
-            message: "",
+            values: "",
+            message: "Successfully Deleted",
             status: 200
         };
 
@@ -133,24 +137,30 @@ export const superadminDelete = async () => {
     };
 };
 
-export const superadminCreate = async () => {
+export const superadminCreate = async (newSuperadmin) => {
     try {
-        const superAdmin = await SuperAdmin.find();
+        const { email } = newSuperadmin;
 
-        if (!superAdmin) {
+        const superAdmin = await SuperAdmin.findOne({email});
+
+        if (superAdmin) {
             return {
                 ok: false,
                 values: "",
-                message: "Not Found",
-                status: 404
+                message: "Super admin already exist",
+                status: 400
             };
         };
 
+        const newAdmin = new SuperAdmin(newSuperadmin);
+
+        const adminSave = await newAdmin.save();
+
         return {
             ok: true,
-            values: superAdmin,
+            values: adminSave,
             message: "",
-            status: 200
+            status: 201
         };
 
 
