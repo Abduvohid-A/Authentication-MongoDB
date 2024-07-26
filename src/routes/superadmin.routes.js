@@ -1,9 +1,10 @@
 import { Router } from "express";
-import { getAllSuperadmin,
-    getSuperAdmin,
-    putSuperAdmin,
-    delSuperAdmin,
-    createSuperAdmin
+import {
+  getAllSuperadmin,
+  getSuperAdmin,
+  putSuperAdmin,
+  delSuperAdmin,
+  createSuperAdmin,
 } from "../controllers/superadmin.controllers.js";
 import adminRouter from "./admin.routes.js";
 import userRouter from "./users.routes.js";

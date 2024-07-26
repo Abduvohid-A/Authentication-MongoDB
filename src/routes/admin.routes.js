@@ -1,10 +1,10 @@
 import { Router } from "express";
 import {
-    getAllAdmins,
-    getAdmin,
-    putAdmin,
-    delAdmin,
-    createAdmin
+  getAllAdmins,
+  getAdmin,
+  putAdmin,
+  delAdmin,
+  createAdmin,
 } from "../controllers/admin.controllers.js";
 import userRouter from "./users.routes.js";
 import tasksRouter from "./tasks.routes.js";

@@ -1,10 +1,10 @@
 import { Router } from "express";
 import {
-    getAllUsers,
-    getUser,
-    putUser,
-    delUser,
-    createUser
+  getAllUsers,
+  getUser,
+  putUser,
+  delUser,
+  createUser,
 } from "../controllers/users.controllers.js";
 import tasksRouter from "./tasks.routes.js";
 
